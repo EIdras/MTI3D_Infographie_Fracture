@@ -1,0 +1,6 @@
+Assets/Nebula[[:space:]]Skyboxes/*.exr filter=lfs diff=lfs merge=lfs -text
+Assets/Nebula[[:space:]]Skyboxes/Nebula_01_Cubemap.exr filter=lfs diff=lfs merge=lfs -text
+Assets/Nebula[[:space:]]Skyboxes/Nebula_02_Cubemap.exr filter=lfs diff=lfs merge=lfs -text
+Assets/Nebula[[:space:]]Skyboxes/Nebula_03_Cubemap.exr filter=lfs diff=lfs merge=lfs -text
+Assets/Nebula[[:space:]]Skyboxes/Nebula_04_Cubemap.exr filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text
