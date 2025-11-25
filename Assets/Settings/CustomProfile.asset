@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953beb541740ddc499d005ee80c9ff29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 0
     m_Value: 1
@@ -198,7 +198,7 @@ MonoBehaviour:
     m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   tint:
     m_OverrideState: 0
-    m_Value: {r: 0.8066038, g: 1, b: 0.92341006, a: 1}
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   maxFogDistance:
     m_OverrideState: 0
     m_Value: 5000
@@ -212,14 +212,14 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1000
   baseHeight:
-    m_OverrideState: 1
-    m_Value: -15
+    m_OverrideState: 0
+    m_Value: 0
   maximumHeight:
-    m_OverrideState: 1
-    m_Value: 15
+    m_OverrideState: 0
+    m_Value: 0
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 1.1
+    m_Value: 6.41
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
@@ -280,10 +280,10 @@ MonoBehaviour:
     m_Value: 0
   skyIntensityMode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   exposure:
-    m_OverrideState: 1
-    m_Value: 4.5
+    m_OverrideState: 0
+    m_Value: 0
   multiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -295,7 +295,7 @@ MonoBehaviour:
     m_Value: {x: 0.4754582, y: 0.45595688, z: 0.5}
   desiredLuxValue:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 8000
   updateMode:
     m_OverrideState: 0
     m_Value: 0
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: SkyandFogSettingsProfile
+  m_Name: CustomProfile
   m_EditorClassIdentifier: 
   components:
   - {fileID: 1142777632297148762}
@@ -428,8 +428,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   skyAmbientMode:
-    m_OverrideState: 1
-    m_Value: 1
+    m_OverrideState: 0
+    m_Value: 0
   planetRadius:
     m_OverrideState: 0
     m_Value: 6378.1

@@ -45,14 +45,14 @@ public class Module : MonoBehaviour
     }
     
     // Pour visualiser dans l'éditeur
-    void OnDrawGizmosSelected()
-    {
-        if (allSockets == null) allSockets = GetComponentsInChildren<SocketTag>().ToList();
-        foreach (var s in allSockets)
-        {
-            if(s==null) continue;
-            Gizmos.color = type == ModuleType.Stair ? Color.cyan : Color.blue;
-            Gizmos.DrawLine(s.transform.position, s.transform.position + s.transform.forward * 0.4f);
-        }
-    }
+    // void OnDrawGizmosSelected()
+    // {
+    //     if (allSockets == null) allSockets = GetComponentsInChildren<SocketTag>().ToList();
+    //     foreach (var s in allSockets)
+    //     {
+    //         if(s==null) continue;
+    //         Gizmos.color = type == ModuleType.Stair ? Color.cyan : Color.blue;
+    //         Gizmos.DrawLine(s.transform.position, s.transform.position + s.transform.forward * 0.4f);
+    //     }
+    // }
 }
