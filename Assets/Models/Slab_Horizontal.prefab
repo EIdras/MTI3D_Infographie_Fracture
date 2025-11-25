@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7335012329330968997}
   - component: {fileID: 5733614295295214841}
   - component: {fileID: 7696081252514429634}
+  - component: {fileID: 1825562204897160471}
   m_Layer: 0
   m_Name: Slab_Horizontal
   m_TagString: Untagged
@@ -70,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: e4edb4344e2aa4941be7eecbc4cda30e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,6 +93,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1825562204897160471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5497599914042065603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76314be3b431250419e6d0a67c29fd1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allSockets: []
 --- !u!1 &7090233950447733007
 GameObject:
   m_ObjectHideFlags: 0

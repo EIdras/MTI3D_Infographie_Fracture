@@ -93,8 +93,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: bb9799b338349504da1649aa50141c9f, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 75cc1524fd9920f4ab33304641cf4b69, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -417,7 +417,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 663453559}
-  - component: {fileID: 663453558}
+  - component: {fileID: 663453560}
   m_Layer: 0
   m_Name: ProceduralMapGeneration
   m_TagString: Untagged
@@ -425,49 +425,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &663453558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663453557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3832efeb24d47b0439c2c7bff2453bd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridSize: {x: 30, y: 30, z: 30}
-  cellSize: 2
-  seed: 0
-  runOnStart: 1
-  clearBefore: 1
-  allowEmpty: 1
-  emptyWeight: 2
-  centerMargin: 3
-  emptyFalloff: 3
-  falloffExponent: 2
-  edgeSeeds: 6
-  targetPlacements: 5000
-  stepsPerFrame: 400
-  maxSteps: 200000
-  branchBias: 0.9
-  maxConnectionsPerCell: 2
-  continueBias: 3
-  stairBonus: 30
-  tiles:
-  - prefab: {fileID: 6233503256654726215, guid: 403c34f831c4af845a8f1e399e021e4d, type: 3}
-    weight: 1
-    allowAllRotations: 0
-  - prefab: {fileID: 2613801139262585378, guid: 476d7ef5550fbc34b9ebc20099fc7461, type: 3}
-    weight: 1
-    allowAllRotations: 1
-  - prefab: {fileID: 5506002945203685281, guid: f4f45d709932c054392c482870d34338, type: 3}
-    weight: 1
-    allowAllRotations: 1
-  enableLogs: 1
-  logLimit: 1000
-  logZeroCandidateNeighbors: 1
 --- !u!4 &663453559
 Transform:
   m_ObjectHideFlags: 0
@@ -483,6 +440,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &663453560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663453557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5484204594679b644b2fd6fc071e6134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modulePrefabs:
+  - {fileID: 6175316357206625448, guid: 476d7ef5550fbc34b9ebc20099fc7461, type: 3}
+  - {fileID: -1936958732879225202, guid: 403c34f831c4af845a8f1e399e021e4d, type: 3}
+  cubeMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  cubeMaterial: {fileID: 2100000, guid: e4edb4344e2aa4941be7eecbc4cda30e, type: 2}
+  mapSizeX: 100
+  mapSizeZ: 100
+  ceilingHeight: 40
+  bedrockThickness: 3
+  bedrockDensity: 0.4
+  horizonGapMin: 15
+  horizonGapMax: 30
+  fillPercentage: 0.15
+  maxCrawlersSimultanes: 50
+  totalBlocksLimit: 50000
+  blocksPerFrame: 100
+  stairContinuity: 0.9
+  branchingRate: 0.3
+  minStairLength: 4
+  gridSize: 2
 --- !u!1 &1823688464
 GameObject:
   m_ObjectHideFlags: 0

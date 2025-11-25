@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 3561483395457462763}
   - component: {fileID: 3567557799439482128}
   - component: {fileID: 6992792150117951562}
+  - component: {fileID: 3601386939612787919}
   m_Layer: 0
   m_Name: Arch
   m_TagString: Untagged
@@ -194,7 +195,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: e4edb4344e2aa4941be7eecbc4cda30e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -216,6 +217,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3601386939612787919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5356205609877687844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76314be3b431250419e6d0a67c29fd1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  allSockets: []
 --- !u!1 &5717499570365866416
 GameObject:
   m_ObjectHideFlags: 0

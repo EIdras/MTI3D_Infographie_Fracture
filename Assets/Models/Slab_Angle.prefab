@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 2331529051089677648}
   - component: {fileID: 3413479681775367210}
   - component: {fileID: 1301647722776236042}
+  - component: {fileID: 6114631956939416979}
   m_Layer: 0
   m_Name: Slab_Angle
   m_TagString: Untagged
@@ -208,7 +209,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: e4edb4344e2aa4941be7eecbc4cda30e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,6 +231,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6114631956939416979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506002945203685281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76314be3b431250419e6d0a67c29fd1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allSockets:
+  - {fileID: 6416205495738442159}
+  - {fileID: 3577751960608956130}
+  - {fileID: 5445608643360727243}
+  - {fileID: 8127879400532683658}
+  - {fileID: 6115402636133732568}
+  - {fileID: 5908685286104048802}
 --- !u!1 &5594531321294545826
 GameObject:
   m_ObjectHideFlags: 0

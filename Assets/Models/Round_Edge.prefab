@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8784669045281932497}
   - component: {fileID: 8626615091886524650}
   - component: {fileID: 6341045645097598344}
+  - component: {fileID: 9012509705165195716}
   m_Layer: 0
   m_Name: Round_Edge
   m_TagString: Untagged
@@ -70,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: e4edb4344e2aa4941be7eecbc4cda30e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,6 +93,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &9012509705165195716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637232351564692504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76314be3b431250419e6d0a67c29fd1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  allSockets: []
 --- !u!1 &3769183612526376509
 GameObject:
   m_ObjectHideFlags: 0
