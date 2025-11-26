@@ -6,35 +6,34 @@ using UnityEditor;
 #endif
 
 [ExecuteInEditMode]
-public class EscherEditorGenerator : MonoBehaviour
+public class EscherVoidGenerator : MonoBehaviour
 {
     [Header("Assets")]
     public List<Module> modulePrefabs;
 
-    [Header("Dimensions")]
-    public int mapSizeX = 60;
-    public int mapSizeZ = 60;
-    public int ceilingHeight = 80;
-
-    [Header("Socle")]
-    public int bedrockThickness = 6; 
-    [Range(0, 1)] public float bedrockDensity = 0.85f;
-
-    [Header("Horizon")]
-    public int horizonGapMin = 35; 
-    public int horizonGapMax = 45;
-
-    [Header("Filaments")]
-    [Range(0, 1)] public float fillPercentage = 0.10f;
-    public int totalBlocksLimit = 40000;
+    [Header("Volume de Génération")]
+    public Vector3Int mapSize = new Vector3Int(80, 80, 80); 
     
-    [Header("Style")]
+    [Header("Le Cœur Vide")]
+    public float centralVoidRadius = 20f; 
+
+    [Header("Densité Automatique")]
+    [Tooltip("Distance moyenne entre deux structures (en mètres/unités). Plus c'est petit, plus c'est dense.")]
+    public float structureSpacing = 25f; // Remplace "NumberOfSeeds"
+    
+    [Tooltip("Limite de sécurité pour ne pas générer 1 million de graines par erreur")]
+    public int maxSeedSafety = 5000; 
+
+    [Header("Paramètres Limites")]
+    public int totalBlocksLimit = 50000; // Monte ça si tu fais du 500x500
+    
+    [Header("Style Berserk")]
     [Range(0f, 1f)] public float stairContinuity = 0.98f; 
-    [Range(0f, 1f)] public float branchingRate = 0.02f;   
-    public int minStairLength = 10;
+    [Range(0f, 1f)] public float branchingRate = 0.05f;   
+    public int minStairLength = 8;
     public float gridSize = 2.0f;
 
-    [Header("Vitesse Génération")]
+    [Header("Vitesse Editeur")]
     public int operationsPerFrame = 500; 
 
     // --- ETAT INTERNE ---
@@ -51,12 +50,16 @@ public class EscherEditorGenerator : MonoBehaviour
         public int chainLength;
     }
 
-    // --- FONCTIONS PUBLIQUES ---
-    [ContextMenu("Lancer Génération")]
+    // --- COMMANDES ---
+    [ContextMenu("Générer Nuage")]
     public void GenerateStructure()
     {
         ClearStructure();
-        Debug.Log("Démarrage de la génération...");
+        Debug.Log("Démarrage génération Nuage...");
+        
+        modulePrefabs.RemoveAll(x => x == null);
+        if(modulePrefabs.Count == 0) { Debug.LogError("Liste prefabs vide !"); return; }
+
         occupiedCells.Clear();
         generationQueue.Clear();
         activeCrawlers.Clear();
@@ -64,8 +67,7 @@ public class EscherEditorGenerator : MonoBehaviour
 
         this.gameObject.SetActive(false); 
 
-        generationQueue.Enqueue(GenerateBedrockPhase);
-        generationQueue.Enqueue(InitializeCrawlersPhase);
+        generationQueue.Enqueue(InitializeSeedsPhase);
 
         #if UNITY_EDITOR
         EditorApplication.update += EditorUpdateLoop;
@@ -78,10 +80,8 @@ public class EscherEditorGenerator : MonoBehaviour
         var children = new List<GameObject>();
         foreach (Transform child in transform) children.Add(child.gameObject);
         foreach (var child in children) DestroyImmediate(child);
-        
         occupiedCells.Clear();
         currentBlockCount = 0;
-        Debug.Log("Structure effacée.");
     }
 
     [ContextMenu("STOP")]
@@ -92,31 +92,24 @@ public class EscherEditorGenerator : MonoBehaviour
         #endif
         this.gameObject.SetActive(true);
         EditorUtility.ClearProgressBar();
-        Debug.Log($"Génération arrêtée/terminée. {currentBlockCount} blocs.");
+        Debug.Log($"Génération terminée. {currentBlockCount} blocs.");
     }
 
-    // --- BOUCLE EDITEUR ---
+    // --- BOUCLE PRINCIPALE ---
     void EditorUpdateLoop()
     {
-        if (generationQueue.Count == 0 && activeCrawlers.Count == 0)
-        {
-            StopGeneration();
-            return;
-        }
+        if (this == null) { StopGeneration(); return; }
+
+        if (generationQueue.Count == 0 && activeCrawlers.Count == 0) { StopGeneration(); return; }
 
         int ops = 0;
-
-        while (generationQueue.Count > 0 && ops < operationsPerFrame)
-        {
-            var action = generationQueue.Dequeue();
-            action.Invoke();
+        while (generationQueue.Count > 0 && ops < operationsPerFrame) {
+            generationQueue.Dequeue().Invoke();
             ops = operationsPerFrame; 
         }
 
-        if (activeCrawlers.Count > 0)
-        {
-            for (int i = activeCrawlers.Count - 1; i >= 0; i--)
-            {
+        if (activeCrawlers.Count > 0) {
+            for (int i = activeCrawlers.Count - 1; i >= 0; i--) {
                 if (ops >= operationsPerFrame) break;
                 bool keepAlive = ProcessCrawlerStep(activeCrawlers[i]);
                 if (!keepAlive) activeCrawlers.RemoveAt(i);
@@ -124,82 +117,56 @@ public class EscherEditorGenerator : MonoBehaviour
             }
         }
 
-        if (currentBlockCount % 100 == 0)
-        {
-            float progress = (float)currentBlockCount / totalBlocksLimit;
-            EditorUtility.DisplayProgressBar("Génération structures", $"Construction... {currentBlockCount} blocs", progress);
+        if (currentBlockCount % 200 == 0) {
+            EditorUtility.DisplayProgressBar("Génération...", $"{currentBlockCount} blocs", (float)currentBlockCount / totalBlocksLimit);
         }
     }
 
-    // --- PHASES ---
-    void GenerateBedrockPhase()
+    // --- LOGIQUE DE GENERATION ---
+
+    void InitializeSeedsPhase()
     {
-        Module cubePrefab = modulePrefabs.FirstOrDefault(m => m.type == ModuleType.Structure);
-        if (cubePrefab == null) cubePrefab = modulePrefabs[0];
-
-        int halfX = mapSizeX / 2;
-        int halfZ = mapSizeZ / 2;
-
-        for (int x = -halfX; x < halfX; x++)
-        {
-            for (int z = -halfZ; z < halfZ; z++)
-            {
-                float noise = Mathf.PerlinNoise((x + 1000) * 0.1f, (z + 1000) * 0.1f); 
-                int localThickness = Mathf.RoundToInt(bedrockThickness * (0.5f + noise));
-                int startY = Mathf.Max(0, localThickness - 2); 
-
-                for (int y = startY; y < localThickness; y++)
-                {
-                    if (Random.value < bedrockDensity) 
-                        SpawnEditorBlock(new Vector3Int(x, y, z), Vector3.up, cubePrefab);
-                }
-                for (int y = startY; y < localThickness; y++)
-                {
-                    if (Random.value < bedrockDensity) 
-                        SpawnEditorBlock(new Vector3Int(x, ceilingHeight - y, z), Vector3.down, cubePrefab);
-                }
-            }
-        }
-    }
-
-    void InitializeCrawlersPhase()
-    {
-        Debug.Log("Initialisation des Crawlers...");
-        int halfX = mapSizeX / 2;
-        int halfZ = mapSizeZ / 2;
-        int step = 6; 
+        // 1. CALCUL DU NOMBRE DE GRAINES BASÉ SUR LE VOLUME
+        long volume = (long)mapSize.x * mapSize.y * mapSize.z;
+        // Volume d'une "cellule" virtuelle définie par l'espacement
+        float cellVolume = Mathf.Pow(structureSpacing, 3);
         
-        List<CrawlerData> seeds = new List<CrawlerData>();
+        // Nombre théorique de graines pour remplir ce volume
+        int targetSeeds = Mathf.FloorToInt(volume / cellVolume);
+        
+        // Sécurité
+        targetSeeds = Mathf.Clamp(targetSeeds, 1, maxSeedSafety);
+
+        Debug.Log($"Volume: {volume}. Espacement: {structureSpacing}. Objectif Graines: {targetSeeds}");
+
         Module starter = modulePrefabs.FirstOrDefault(m => m.type == ModuleType.Structure) ?? modulePrefabs[0];
+        int seedsPlaced = 0;
+        int attempts = 0;
 
-        for (int x = -halfX; x < halfX; x += step)
+        while (seedsPlaced < targetSeeds && attempts < targetSeeds * 10)
         {
-            for (int z = -halfZ; z < halfZ; z += step)
-            {
-                float noise = Mathf.PerlinNoise((x + 1000) * 0.1f, (z + 1000) * 0.1f); 
-                int localHeight = Mathf.RoundToInt(bedrockThickness * (0.5f + noise));
-                int safeY = localHeight + 1; 
+            attempts++;
+            
+            // Position aléatoire
+            Vector3Int randomPos = new Vector3Int(
+                Random.Range(-mapSize.x/2, mapSize.x/2),
+                Random.Range(-mapSize.y/2, mapSize.y/2),
+                Random.Range(-mapSize.z/2, mapSize.z/2)
+            );
 
-                Vector3Int posFloor = new Vector3Int(x, safeY, z);
-                if (!occupiedCells.Contains(posFloor))
-                {
-                    Module m = SpawnEditorBlock(posFloor, Vector3.up, starter, $"RootF_{x}_{z}");
-                    if(m) activeCrawlers.Add(new CrawlerData { currentModule = m, name = $"F_{x}_{z}", stepsTaken = 0, chainLength = 0 });
-                }
+            if (IsInCentralVoid(randomPos)) continue;
+            if (occupiedCells.Contains(randomPos)) continue;
 
-                int safeCeilingY = ceilingHeight - localHeight - 1;
-                Vector3Int posCeil = new Vector3Int(x, safeCeilingY, z);
-                if (!occupiedCells.Contains(posCeil))
-                {
-                    Module m = SpawnEditorBlock(posCeil, Vector3.down, starter, $"RootC_{x}_{z}");
-                    if(m) activeCrawlers.Add(new CrawlerData { currentModule = m, name = $"C_{x}_{z}", stepsTaken = 0, chainLength = 0 });
-                }
+            Vector3 randomDir = Random.onUnitSphere; 
+            Vector3 cardinalDir = GetCardinalDirection(randomDir);
+
+            Module m = SpawnEditorBlock(randomPos, cardinalDir, starter, $"Seed_{seedsPlaced}");
+            if (m) {
+                activeCrawlers.Add(new CrawlerData { currentModule = m, name = $"C_{seedsPlaced}", stepsTaken = 0, chainLength = 0 });
+                seedsPlaced++;
             }
         }
-        
-        activeCrawlers = activeCrawlers.OrderBy(x => Random.value).ToList();
-        int limit = Mathf.FloorToInt(activeCrawlers.Count * fillPercentage);
-        if (activeCrawlers.Count > limit) activeCrawlers.RemoveRange(limit, activeCrawlers.Count - limit);
+        Debug.Log($"Graines placées : {seedsPlaced}");
     }
 
     bool ProcessCrawlerStep(CrawlerData crawler)
@@ -219,8 +186,8 @@ public class EscherEditorGenerator : MonoBehaviour
         CalculateAlignment(startSocket, endSocket, out targetWorldPos, out targetRot);
         Vector3Int targetGridPos = WorldToGrid(targetWorldPos);
 
-        if (occupiedCells.Contains(targetGridPos) || IsOutOfBounds(targetGridPos)) return true;
-        if (IsInHorizonGap(targetGridPos.y)) return false; 
+        if (occupiedCells.Contains(targetGridPos) || IsOutOfBounds(targetGridPos)) return true; 
+        if (IsInCentralVoid(targetGridPos)) return false; 
 
         Module newInstance = SpawnEditorBlock(targetGridPos, Vector3.up, nextPrefab, $"{crawler.name}_{crawler.stepsTaken}", targetRot);
         
@@ -234,13 +201,12 @@ public class EscherEditorGenerator : MonoBehaviour
         return true;
     }
 
-    Module SpawnEditorBlock(Vector3Int gridPos, Vector3 upAxis, Module prefab, string name = "Block", Quaternion? forceRot = null)
+    Module SpawnEditorBlock(Vector3Int gridPos, Vector3 upAxis, Module prefab, string name, Quaternion? forceRot = null)
     {
         if (occupiedCells.Contains(gridPos) || currentBlockCount >= totalBlocksLimit) return null;
 
         Quaternion rot = forceRot.HasValue ? forceRot.Value : Quaternion.LookRotation(Vector3.forward, upAxis);
-        if (!forceRot.HasValue) rot *= Quaternion.Euler(0, Random.Range(0, 4) * 90, 0); 
-
+        
         Module instance = (Module)PrefabUtility.InstantiatePrefab(prefab, transform);
         instance.transform.position = GridToWorld(gridPos);
         instance.transform.rotation = rot;
@@ -249,42 +215,44 @@ public class EscherEditorGenerator : MonoBehaviour
         instance.gameObject.SetActive(true);
 
         if (instance.allSockets == null || instance.allSockets.Count == 0)
-        {
             instance.allSockets = instance.GetComponentsInChildren<SocketTag>(true).ToList();
-        }
 
         occupiedCells.Add(gridPos);
         currentBlockCount++;
         return instance;
     }
 
-    // --- VISUALISATION (GIZMOS) ---
-    // C'est la partie que j'ai rajoutée pour que tu voies tes zones
-    void OnDrawGizmos()
+    // --- MATHS & GIZMOS ---
+
+    bool IsInCentralVoid(Vector3Int gridPos)
     {
-        // 1. La boite globale (Jaune)
-        Gizmos.color = Color.yellow;
-        Vector3 center = transform.position + new Vector3(0, ceilingHeight * gridSize / 2, 0);
-        Vector3 size = new Vector3(mapSizeX * gridSize, ceilingHeight * gridSize, mapSizeZ * gridSize);
-        Gizmos.DrawWireCube(center, size);
-
-        // 2. La Zone Vide Horizon (Rouge transparent)
-        Gizmos.color = new Color(1, 0, 0, 0.2f);
-        float gapCenterY = (horizonGapMin + horizonGapMax) / 2f * gridSize;
-        float gapHeight = (horizonGapMax - horizonGapMin) * gridSize;
-        Gizmos.DrawCube(transform.position + new Vector3(0, gapCenterY, 0), new Vector3(mapSizeX * gridSize, gapHeight, mapSizeZ * gridSize));
-
-        // 3. Le Socle Sol (Bleu transparent)
-        Gizmos.color = new Color(0, 0, 1, 0.2f);
-        Gizmos.DrawCube(transform.position + new Vector3(0, bedrockThickness * gridSize / 2, 0), new Vector3(mapSizeX * gridSize, bedrockThickness * gridSize, mapSizeZ * gridSize));
+        float dist = Vector3.Magnitude(new Vector3(gridPos.x, gridPos.y, gridPos.z));
+        // On considère le rayon en unités grille
+        return dist < centralVoidRadius;
     }
 
-    // --- MATHS ---
-    bool IsInHorizonGap(int y) { return y > horizonGapMin && y < horizonGapMax; }
-    bool IsOutOfBounds(Vector3Int p) { return Mathf.Abs(p.x) > mapSizeX/2+5 || Mathf.Abs(p.z) > mapSizeZ/2+5 || p.y < 0 || p.y > ceilingHeight; }
+    bool IsOutOfBounds(Vector3Int p) {
+        return Mathf.Abs(p.x) > mapSize.x/2 || Mathf.Abs(p.y) > mapSize.y/2 || Mathf.Abs(p.z) > mapSize.z/2;
+    }
+
+    Vector3 GetCardinalDirection(Vector3 dir) {
+        float max = Mathf.Max(Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z));
+        if (max == Mathf.Abs(dir.x)) return dir.x > 0 ? Vector3.right : Vector3.left;
+        if (max == Mathf.Abs(dir.y)) return dir.y > 0 ? Vector3.up : Vector3.down;
+        return dir.z > 0 ? Vector3.forward : Vector3.back;
+    }
+
+    void OnDrawGizmos() {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(transform.position, new Vector3(mapSize.x * gridSize, mapSize.y * gridSize, mapSize.z * gridSize));
+        
+        Gizmos.color = new Color(1, 0, 0, 0.3f);
+        Gizmos.DrawSphere(transform.position, centralVoidRadius * gridSize);
+    }
+
+    // --- UTILITAIRES STANDARDS ---
     Vector3Int WorldToGrid(Vector3 wp) => new Vector3Int(Mathf.RoundToInt(wp.x/gridSize), Mathf.RoundToInt(wp.y/gridSize), Mathf.RoundToInt(wp.z/gridSize));
     Vector3 GridToWorld(Vector3Int gp) => new Vector3(gp.x*gridSize, gp.y*gridSize, gp.z*gridSize);
-
     bool HasAnyCompatibleSocket(Module prefab, SocketTag source) {
         if(prefab == null) return false;
         var list = prefab.allSockets; if (list == null || list.Count == 0) list = prefab.GetComponentsInChildren<SocketTag>(true).ToList();

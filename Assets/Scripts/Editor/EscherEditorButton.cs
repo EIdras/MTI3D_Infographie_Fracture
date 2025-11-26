@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(EscherEditorGenerator))]
+[CustomEditor(typeof(EscherVoidGenerator))]
 public class EscherEditorButton : Editor
 {
     public override void OnInspectorGUI()
@@ -9,7 +9,7 @@ public class EscherEditorButton : Editor
         // Affiche l'interface par défaut (les variables)
         DrawDefaultInspector();
 
-        EscherEditorGenerator script = (EscherEditorGenerator)target;
+        EscherVoidGenerator script = (EscherVoidGenerator)target;
 
         GUILayout.Space(20);
 
