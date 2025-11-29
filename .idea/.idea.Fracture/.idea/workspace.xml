@@ -6,10 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="58f46673-750e-481b-a211-5ebb53b28c22" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Fracture/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Fracture/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/EscherEditorButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/EscherEditorButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/SimpleMeshCombiner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/SimpleMeshCombiner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/SkyandFogSettingsProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/SkyandFogSettingsProfile.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Lighting.lighting" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Lighting.lighting" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/structures3.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/structures3.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/SimpleMeshCombiner.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/SimpleMeshCombiner.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +24,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/EscherEditorButton.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/SimpleMeshCombiner.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/ProfessionalMeshCombiner.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -120,7 +123,8 @@
       <workItem from="1760946563231" duration="64000" />
       <workItem from="1764057531376" duration="1336000" />
       <workItem from="1764060306277" duration="3342000" />
-      <workItem from="1764144267879" duration="2062000" />
+      <workItem from="1764144267879" duration="2663000" />
+      <workItem from="1764232585415" duration="1601000" />
     </task>
     <servers />
   </component>
