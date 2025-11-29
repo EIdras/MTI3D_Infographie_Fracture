@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="58f46673-750e-481b-a211-5ebb53b28c22" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Fracture/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Fracture/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Lighting.lighting" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Lighting.lighting" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/structures3.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/structures3.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Arche_U.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Arche_U.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/SimpleMeshCombiner.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/SimpleMeshCombiner.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/Module.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/Module.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +23,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/EscherEditorButton.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/ProfessionalMeshCombiner.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -125,12 +125,14 @@
       <workItem from="1764060306277" duration="3342000" />
       <workItem from="1764144267879" duration="2663000" />
       <workItem from="1764232585415" duration="1601000" />
+      <workItem from="1764428346742" duration="893000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
     <option name="hasUnityReference" value="true" />
