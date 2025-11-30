@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: 20
+    m_Value: 22
 --- !u!114 &-2982234834606374509
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -231,7 +231,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 1
   meteringMode:
     m_OverrideState: 0
     m_Value: 2
@@ -243,7 +243,7 @@ MonoBehaviour:
     m_Value: 11.705069
   compensation:
     m_OverrideState: 0
-    m_Value: -11.73
+    m_Value: 0
   limitMin:
     m_OverrideState: 1
     m_Value: 2

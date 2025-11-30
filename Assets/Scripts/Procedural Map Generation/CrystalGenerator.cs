@@ -43,7 +43,7 @@ namespace Procedural_Map_Generation
 
                         // Randomisation
                         crystal.transform.rotation = Random.rotation;
-                        float scale = Random.Range(0.5f, 2.0f);
+                        float scale = Random.Range(80f, 130f);
                         crystal.transform.localScale = Vector3.one * scale;
 
                         count++;
