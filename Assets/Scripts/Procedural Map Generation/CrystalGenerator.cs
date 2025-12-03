@@ -8,18 +8,13 @@ namespace Procedural_Map_Generation
 
     public class CrystalGenerator : MonoBehaviour
     {
-        public GameObject crystalPrefab; // Ton prefab wireframe avec lumière
-        [Range(0, 1)] public float density = 0.05f; // Rareté
-        public int checkRadius = 3; // Rayon de vide nécessaire (en blocs)
+        public GameObject crystalPrefab; 
+        [Range(0, 1)] public float density = 0.05f; 
+        public int checkRadius = 3; 
 
         public void GenerateCrystals(EscherVoidGenerator generator)
         {
-            // On récupère la map des cases occupées du générateur (il faut passer occupiedCells en public ou faire un getter)
-            // Pour simplifier ici, on va scanner physiquement ou supposer qu'on a accès à la liste.
-            // L'idéal est d'ajouter un getter dans EscherVoidGenerator : public HashSet<Vector3Int> GetOccupiedCells() { return occupiedCells; }
-
             Debug.Log("Génération des cristaux...");
-            // Hack simple : On parcourt un volume aléatoire
             int count = 0;
             int maxAttempts = 5000;
             Vector3Int mapSize = generator.mapSize;
@@ -32,19 +27,24 @@ namespace Procedural_Map_Generation
                     Random.Range(-mapSize.z / 2, mapSize.z / 2)
                 );
 
+                // Vérification logique (si la case est occupée par la structure)
+                if (generator.IsCellOccupied(pos)) continue;
+
+                // Vérification physique (espace vide autour)
                 if (IsSpaceEmpty(pos, checkRadius, generator.gridSize))
                 {
                     if (Random.value < density)
                     {
-                        GameObject crystal =
-                            (GameObject)PrefabUtility.InstantiatePrefab(crystalPrefab, generator.transform);
-                        crystal.transform.position = new Vector3(pos.x * generator.gridSize, pos.y * generator.gridSize,
-                            pos.z * generator.gridSize);
-
-                        // Randomisation
+                        GameObject crystal = (GameObject)PrefabUtility.InstantiatePrefab(crystalPrefab, generator.transform);
+                        
+                        crystal.transform.position = new Vector3(pos.x * generator.gridSize, pos.y * generator.gridSize, pos.z * generator.gridSize);
                         crystal.transform.rotation = Random.rotation;
+                        
                         float scale = Random.Range(80f, 130f);
                         crystal.transform.localScale = Vector3.one * scale;
+
+                        // NOMENCLATURE IMPORTANTE POUR LE MESH COMBINER
+                        crystal.name = $"CRYSTAL_{count}";
 
                         count++;
                     }
@@ -56,8 +56,6 @@ namespace Procedural_Map_Generation
 
         bool IsSpaceEmpty(Vector3Int center, int radius, float gridSize)
         {
-            // On utilise Physics.CheckSphere pour être sûr de ne pas toucher de géométrie existante
-            // Attention : tes blocs doivent avoir des Colliders pour que ça marche en Editor mode !
             return !Physics.CheckSphere(
                 new Vector3(center.x * gridSize, center.y * gridSize, center.z * gridSize),
                 radius * gridSize * 0.8f

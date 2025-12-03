@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ProfessionalMeshCombiner))]
-public class ProfessionalMeshCombinerEditor : Editor
+[CustomEditor(typeof(MeshCombiner))]
+public class MeshCombinerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         
-        ProfessionalMeshCombiner script = (ProfessionalMeshCombiner)target;
+        MeshCombiner script = (MeshCombiner)target;
         
         GUILayout.Space(10);
         

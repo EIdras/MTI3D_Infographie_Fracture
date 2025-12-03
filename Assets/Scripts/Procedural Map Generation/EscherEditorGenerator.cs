@@ -17,7 +17,7 @@ public class EscherVoidGenerator : MonoBehaviour
     }
 
     [Header("Assets & Probabilités")]
-    public List<WeightedModule> modulePrefabs; // On utilise la nouvelle liste pondérée
+    public List<WeightedModule> modulePrefabs; 
 
     [Header("Volume de Génération")]
     public Vector3Int mapSize = new Vector3Int(80, 80, 80); 
@@ -34,7 +34,7 @@ public class EscherVoidGenerator : MonoBehaviour
     
     [Header("Style Berserk")]
     [Range(0f, 1f)] public float stairContinuity = 0.98f; 
-    [Range(0f, 1f)] public float branchingRate = 0.05f;   
+    [Range(0f, 1f)] public float branchingRate = 0.05f;    
     public int minStairLength = 8;
     public float gridSize = 2.0f;
 
@@ -55,6 +55,11 @@ public class EscherVoidGenerator : MonoBehaviour
         public int chainLength;
     }
 
+    // --- API PUBLIQUE POUR LES CRISTAUX ---
+    public bool IsCellOccupied(Vector3Int pos) {
+        return occupiedCells.Contains(pos);
+    }
+
     // --- COMMANDES ---
     [ContextMenu("Générer Nuage")]
     public void GenerateStructure()
@@ -62,7 +67,6 @@ public class EscherVoidGenerator : MonoBehaviour
         ClearStructure();
         Debug.Log("Démarrage génération Nuage...");
         
-        // Nettoyage liste
         modulePrefabs.RemoveAll(x => x.module == null);
         if(modulePrefabs.Count == 0) { Debug.LogError("Liste prefabs vide !"); return; }
 
@@ -71,7 +75,8 @@ public class EscherVoidGenerator : MonoBehaviour
         activeCrawlers.Clear();
         currentBlockCount = 0;
 
-        this.gameObject.SetActive(false); 
+        // On ne désactive plus le gameobject parent pour voir la progression
+        // this.gameObject.SetActive(false); 
 
         generationQueue.Enqueue(InitializeSeedsPhase);
 
@@ -83,9 +88,11 @@ public class EscherVoidGenerator : MonoBehaviour
     [ContextMenu("Tout Effacer")]
     public void ClearStructure()
     {
+        // Destruction propre de tous les enfants (Structures et Cristaux)
         var children = new List<GameObject>();
         foreach (Transform child in transform) children.Add(child.gameObject);
         foreach (var child in children) DestroyImmediate(child);
+        
         occupiedCells.Clear();
         currentBlockCount = 0;
     }
@@ -96,7 +103,7 @@ public class EscherVoidGenerator : MonoBehaviour
         #if UNITY_EDITOR
         EditorApplication.update -= EditorUpdateLoop;
         #endif
-        this.gameObject.SetActive(true);
+        // this.gameObject.SetActive(true);
         EditorUtility.ClearProgressBar();
         Debug.Log($"Génération terminée. {currentBlockCount} blocs.");
     }
@@ -139,7 +146,6 @@ public class EscherVoidGenerator : MonoBehaviour
 
         Debug.Log($"Objectif Graines: {targetSeeds}");
 
-        // On cherche un starter parmi les WeightedModules
         Module starter = modulePrefabs.FirstOrDefault(m => m.module.type == ModuleType.Structure).module;
         if (starter == null) starter = modulePrefabs[0].module;
 
@@ -162,7 +168,6 @@ public class EscherVoidGenerator : MonoBehaviour
             Vector3 randomDir = Random.onUnitSphere; 
             Vector3 cardinalDir = GetCardinalDirection(randomDir);
 
-            // On utilise la fonction de Spawn mise à jour qui prend un Quaternion
             Module m = SpawnEditorBlock(randomPos, Quaternion.LookRotation(cardinalDir, Vector3.up), starter, $"Seed_{seedsPlaced}");
             if (m) {
                 activeCrawlers.Add(new CrawlerData { currentModule = m, name = $"C_{seedsPlaced}", stepsTaken = 0, chainLength = 0 });
@@ -179,7 +184,6 @@ public class EscherVoidGenerator : MonoBehaviour
         SocketTag startSocket = crawler.currentModule.GetRandomOpenSocket();
         if (startSocket == null) return false;
 
-        // Choix pondéré ici
         Module nextPrefab = PickWeightedModule(startSocket, crawler.currentModule, ref crawler.chainLength);
         if (nextPrefab == null) { crawler.stepsTaken++; return true; }
 
@@ -190,7 +194,6 @@ public class EscherVoidGenerator : MonoBehaviour
         CalculateAlignment(startSocket, endSocket, out targetWorldPos, out targetRot);
         Vector3Int targetGridPos = WorldToGrid(targetWorldPos);
 
-        // Vérification Collision Multi-Blocs
         if (CheckCollision(targetGridPos, targetRot, nextPrefab)) return true;
         
         if (IsInCentralVoid(targetGridPos)) return false; 
@@ -202,15 +205,11 @@ public class EscherVoidGenerator : MonoBehaviour
             activeCrawlers.Add(new CrawlerData { currentModule = newInstance, name = crawler.name + "_B", stepsTaken = 0, chainLength = 0 });
         }
         
-        // Si c'est une MacroStruct (Arche), on force parfois la continuité si besoin, 
-        // ou on laisse le crawler continuer normalement depuis la sortie de l'arche.
-
         crawler.currentModule = newInstance;
         crawler.stepsTaken++;
         return true;
     }
 
-    // Fonction Spawn qui gère les Offsets Multiples
     Module SpawnEditorBlock(Vector3Int gridPos, Quaternion rotation, Module prefab, string name)
     {
         if (currentBlockCount >= totalBlocksLimit) return null;
@@ -225,7 +224,6 @@ public class EscherVoidGenerator : MonoBehaviour
         if (instance.allSockets == null || instance.allSockets.Count == 0)
             instance.allSockets = instance.GetComponentsInChildren<SocketTag>(true).ToList();
 
-        // Occupation des cases (Multi-Blocs)
         foreach(var offset in instance.occupiedOffsets)
         {
             Vector3 rotatedOffsetFloat = rotation * (Vector3)offset;
@@ -237,10 +235,9 @@ public class EscherVoidGenerator : MonoBehaviour
         return instance;
     }
 
-    // --- LOGIQUE DE SELECTION PONDÉRÉE (LE COEUR DU CHANGEMENT) ---
+    // --- LOGIQUE DE SELECTION PONDÉRÉE ---
     Module PickWeightedModule(SocketTag sourceSocket, Module currentModule, ref int chainCount) 
     {
-        // 1. On filtre d'abord par TYPE (Logique Berserk : escalier continue escalier)
         List<WeightedModule> candidates = new List<WeightedModule>();
         
         if (currentModule.type == ModuleType.Stair) {
@@ -258,20 +255,17 @@ public class EscherVoidGenerator : MonoBehaviour
             }
         } 
         else { 
-            candidates = modulePrefabs; // Tout est permis
+            candidates = modulePrefabs;
             chainCount = 0; 
         }
 
-        // 2. On filtre ensuite par COMPATIBILITÉ (Sockets)
         var validCandidates = candidates.Where(wm => HasAnyCompatibleSocket(wm.module, sourceSocket)).ToList();
         
-        // Fallback si rien trouvé
         if (validCandidates.Count == 0 && candidates.Count != modulePrefabs.Count) 
              validCandidates = modulePrefabs.Where(wm => HasAnyCompatibleSocket(wm.module, sourceSocket)).ToList();
 
         if (validCandidates.Count == 0) return null;
 
-        // 3. SELECTION PAR POIDS (Weighted Random)
         float totalWeight = 0f;
         foreach(var wm in validCandidates) totalWeight += wm.weight;
 
@@ -285,11 +279,10 @@ public class EscherVoidGenerator : MonoBehaviour
                 randomPoint -= wm.weight;
         }
 
-        return validCandidates.Last().module; // Sécurité
+        return validCandidates.Last().module;
     }
 
     // --- MATHS & UTILITAIRES ---
-
     bool CheckCollision(Vector3Int rootGridPos, Quaternion rotation, Module prefab)
     {
         foreach(var offset in prefab.occupiedOffsets)
@@ -351,11 +344,11 @@ public class EscherVoidGenerator : MonoBehaviour
         return false;
     }
     void CalculateAlignment(SocketTag source, SocketTag target, out Vector3 pos, out Quaternion rot) {
-         Vector3 forwardDir = -source.transform.forward; Vector3 upDir = source.transform.up;
-         Module sMod = source.GetComponentInParent<Module>(); Module tMod = target.GetComponentInParent<Module>();
-         if(sMod && tMod && tMod.type == ModuleType.Stair) upDir = source.transform.up;
-         rot = Quaternion.LookRotation(forwardDir, upDir) * Quaternion.Inverse(target.transform.localRotation);
-         Vector3 e = rot.eulerAngles; rot = Quaternion.Euler(Mathf.Round(e.x/90f)*90f, Mathf.Round(e.y/90f)*90f, Mathf.Round(e.z/90f)*90f);
-         pos = source.transform.position - (rot * target.transform.localPosition);
+          Vector3 forwardDir = -source.transform.forward; Vector3 upDir = source.transform.up;
+          Module sMod = source.GetComponentInParent<Module>(); Module tMod = target.GetComponentInParent<Module>();
+          if(sMod && tMod && tMod.type == ModuleType.Stair) upDir = source.transform.up;
+          rot = Quaternion.LookRotation(forwardDir, upDir) * Quaternion.Inverse(target.transform.localRotation);
+          Vector3 e = rot.eulerAngles; rot = Quaternion.Euler(Mathf.Round(e.x/90f)*90f, Mathf.Round(e.y/90f)*90f, Mathf.Round(e.z/90f)*90f);
+          pos = source.transform.position - (rot * target.transform.localPosition);
     }
 }
