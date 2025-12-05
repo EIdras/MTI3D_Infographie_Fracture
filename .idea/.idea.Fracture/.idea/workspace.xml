@@ -6,19 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="58f46673-750e-481b-a211-5ebb53b28c22" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Fracture/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Fracture/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BlackHoleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BlackHoleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Lighting.lighting" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Lighting.lighting" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/crystal1_low.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/crystal1_low.fbx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/crystal1_low.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/crystal1_low.fbx.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/crystal1_low.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/crystal1_low.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/ProfessionalMeshCombinerEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/ProfessionalMeshCombinerEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/ProfessionalMeshCombiner.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/ProfessionalMeshCombiner.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/SwirlDistortion.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/SwirlDistortion.shadergraph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/BlackHole.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/BlackHole.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +19,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d292e42b7b354516a1fbb4aaa866bbc81dfe00/3b/525fdc50/MonoBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Editor/EscherEditorButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -134,6 +125,7 @@
       <workItem from="1764232585415" duration="1601000" />
       <workItem from="1764428346742" duration="893000" />
       <workItem from="1764780165438" duration="1789000" />
+      <workItem from="1764866458872" duration="1592000" />
     </task>
     <servers />
   </component>
