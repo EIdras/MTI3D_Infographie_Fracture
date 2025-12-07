@@ -6,43 +6,55 @@ public class MeshCombiner : MonoBehaviour
 {
     private const float CHUNK_SIZE = 32.0f; 
 
+    // VERSION GLOBALE (Pour tout le générateur)
     public void CombineForBaking()
+    {
+        CombineTarget(this.transform, "BAKED_STRUCTURE");
+    }
+
+    // VERSION CIBLÉE (Appelable par l'île)
+    public void CombineTarget(Transform targetRoot, string bakeName)
     {
         #if UNITY_EDITOR 
         
-        // 1. Nettoyage de l'ancienne structure baked si elle existe
-        Transform existing = transform.Find("BAKED_STRUCTURE");
+        // 1. Nettoyage de l'ancien bake s'il existe DANS la cible
+        Transform existing = targetRoot.Find(bakeName);
         if (existing != null) DestroyImmediate(existing.gameObject);
 
-        // Reset temporaire de la position/rotation du parent pour le calcul
-        Vector3 oldPos = transform.position;
-        Quaternion oldRot = transform.rotation;
-        transform.position = Vector3.zero;
-        transform.rotation = Quaternion.identity;
+        // Sauvegarde Position
+        Vector3 oldPos = targetRoot.position;
+        Quaternion oldRot = targetRoot.rotation;
+        targetRoot.position = Vector3.zero;
+        targetRoot.rotation = Quaternion.identity;
 
-        MeshFilter[] sourceMeshFilters = GetComponentsInChildren<MeshFilter>();
+        // 2. Scan des MeshFilters
+        MeshFilter[] sourceMeshFilters = targetRoot.GetComponentsInChildren<MeshFilter>();
         var spatialMap = new Dictionary<Vector3Int, Dictionary<Material, List<CombineInstance>>>();
+        
+        // Liste précise des objets (blocs) à détruire après fusion
+        List<GameObject> objectsToDestroy = new List<GameObject>();
 
-        Debug.Log($"Scan de {sourceMeshFilters.Length} éléments...");
-
-        // 2. Tri Spatial et FILTRAGE
+        Debug.Log($"Scan de {sourceMeshFilters.Length} éléments dans {targetRoot.name}...");
         int ignoredCrystals = 0;
 
         foreach (var mf in sourceMeshFilters)
         {
-            if (mf.sharedMesh == null || mf.gameObject == this.gameObject) continue;
+            if (mf.sharedMesh == null || mf.gameObject == targetRoot.gameObject) continue;
             
-            // --- PROTECTION DES CRISTAUX ---
-            // Si l'objet s'appelle "CRYSTAL_..." OU s'il contient une Lumière, on l'ignore pour le merge.
+            // --- PROTECTION CRISTAUX & LUMIERES ---
+            // Si c'est un cristal ou une lampe, on IGNORE tout (pas de merge, pas de destruction)
             if (mf.gameObject.name.Contains("CRYSTAL") || mf.GetComponentInChildren<Light>() != null) {
                 ignoredCrystals++;
                 continue; 
             }
-            // -------------------------------
-
+            
             MeshRenderer mr = mf.GetComponent<MeshRenderer>();
             if (mr == null || mr.sharedMaterial == null) continue;
             if (!mf.gameObject.activeInHierarchy) continue;
+
+            // Si on est ici, c'est un BLOC valide à fusionner
+            // On l'ajoute à la liste des condamnés (on le supprimera à la fin)
+            objectsToDestroy.Add(mf.gameObject);
 
             Vector3 pos = mf.transform.position;
             Vector3Int coord = new Vector3Int(
@@ -60,16 +72,14 @@ public class MeshCombiner : MonoBehaviour
             spatialMap[coord][mr.sharedMaterial].Add(ci);
         }
 
-        Debug.Log($"Structure triée. {ignoredCrystals} cristaux ignorés (préservés).");
-
-        GameObject root = new GameObject("BAKED_STRUCTURE");
-        root.transform.position = oldPos;
-        // On remet root enfant du generateur pour garder l'ordre, mais attention à ne pas le détruire après
-        root.transform.parent = this.transform; 
+        // 3. Création du conteneur BAKED
+        GameObject root = new GameObject(bakeName);
+        root.transform.position = oldPos; // On le place virtuellement pour l'instant
+        root.transform.parent = targetRoot; // On le range dans la cible
         root.transform.localPosition = Vector3.zero;
         root.transform.localRotation = Quaternion.identity;
 
-        // 3. Fusion et UVs
+        // 4. Génération des Meshes
         foreach (var chunk in spatialMap)
         {
             GameObject chunkObj = new GameObject($"Chunk_{chunk.Key.x}_{chunk.Key.y}_{chunk.Key.z}");
@@ -80,20 +90,16 @@ public class MeshCombiner : MonoBehaviour
             {
                 Material mat = matEntry.Key;
                 List<CombineInstance> instances = matEntry.Value;
-                
                 int ptr = 0;
-                int limit = 1500; 
-
                 while (ptr < instances.Count)
                 {
-                    int count = Mathf.Min(limit, instances.Count - ptr);
+                    int count = Mathf.Min(1500, instances.Count - ptr);
                     var batch = instances.GetRange(ptr, count).ToArray();
 
                     Mesh bigMesh = new Mesh();
                     bigMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
                     bigMesh.CombineMeshes(batch, true, true);
 
-                    // --- GENERATION DES UVs LIGHTMAP ---
                     UnityEditor.UnwrapParam param;
                     UnityEditor.UnwrapParam.SetDefaults(out param);
                     param.hardAngle = 88.0f; 
@@ -102,9 +108,8 @@ public class MeshCombiner : MonoBehaviour
                     
                     GameObject meshGO = new GameObject($"{mat.name}_Part");
                     meshGO.transform.parent = chunkObj.transform;
-                    meshGO.transform.position = Vector3.zero; 
-                    meshGO.transform.rotation = Quaternion.identity;
-
+                    meshGO.transform.localPosition = Vector3.zero; 
+                    meshGO.transform.localRotation = Quaternion.identity;
                     meshGO.AddComponent<MeshFilter>().sharedMesh = bigMesh;
                     meshGO.AddComponent<MeshRenderer>().sharedMaterial = mat;
                     meshGO.isStatic = true; 
@@ -114,32 +119,19 @@ public class MeshCombiner : MonoBehaviour
             }
         }
 
-        // 4. SUPPRESSION DES ORIGINAUX (SAUF CRISTAUX)
-        // On fait une liste séparée pour éviter les erreurs de modification de collection
-        List<GameObject> childrenToDestroy = new List<GameObject>();
-
-        foreach (Transform child in transform) 
+        // 5. SUPPRESSION CHIRURGICALE
+        // On ne supprime QUE les blocs qui ont été fusionnés.
+        // On ne touche pas aux parents (ISLAND_ROOT) ni aux cristaux ignorés.
+        foreach(var obj in objectsToDestroy)
         {
-            // On ne touche pas au dossier BAKED qu'on vient de créer
-            if (child == root.transform) continue;
-
-            // --- PROTECTION DES CRISTAUX LORS DE LA DESTRUCTION ---
-            bool isCrystal = child.name.Contains("CRYSTAL") || child.GetComponentInChildren<Light>() != null;
-            
-            if (!isCrystal) {
-                childrenToDestroy.Add(child.gameObject);
-            }
+            if (obj != null) DestroyImmediate(obj);
         }
 
-        int deletedCount = childrenToDestroy.Count;
-        foreach(var obj in childrenToDestroy) {
-            DestroyImmediate(obj);
-        }
-
-        transform.position = oldPos;
-        transform.rotation = oldRot;
+        // Reset positions
+        targetRoot.position = oldPos;
+        targetRoot.rotation = oldRot;
         
-        Debug.Log($"Optimisation terminée. {deletedCount} blocs structurels supprimés. Cristaux conservés.");
+        Debug.Log($"Baking sur '{targetRoot.name}' terminé. {objectsToDestroy.Count} blocs originaux supprimés. Cristaux conservés.");
         #endif
     }
 }

@@ -5,4 +5,8 @@ Assets/Nebula[[:space:]]Skyboxes/Nebula_03_Cubemap.exr filter=lfs diff=lfs merge
 Assets/Nebula[[:space:]]Skyboxes/Nebula_04_Cubemap.exr filter=lfs diff=lfs merge=lfs -text
 Assets/OutdoorsScene.unity filter=lfs diff=lfs merge=lfs -text
 Assets/OutdoorsScene/OcclusionCullingData.asset filter=lfs diff=lfs merge=lfs -text
+"Assets/OutdoorsScene.unity" filter=lfs diff=lfs merge=lfs -text
+"Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set-Default.CellData.bytes" filter=lfs diff=lfs merge=lfs -text
+"Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set-Default.CellOptionalData.bytes" filter=lfs diff=lfs merge=lfs -text
+"Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set.CellSupportData.bytes" filter=lfs diff=lfs merge=lfs -text
 *.exr filter=lfs diff=lfs merge=lfs -text

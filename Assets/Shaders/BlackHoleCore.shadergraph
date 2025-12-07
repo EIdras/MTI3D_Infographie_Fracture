@@ -185,7 +185,7 @@
             "m_Id": "98387ce60b884b30b4aee39e412a2307"
         },
         {
-            "m_Id": "ad0a01b06c0743a88c81ad528bd24b1e"
+            "m_Id": "d36131c60347410491600fd5f7ef6695"
         }
     ],
     "m_CustomEditorGUI": "",
@@ -502,7 +502,7 @@
     "m_TessellationMaxDisplacement": 0.009999999776482582,
     "m_DebugSymbols": false,
     "m_Version": 2,
-    "inspectorFoldoutMask": 1
+    "inspectorFoldoutMask": 3
 }
 
 {
@@ -926,7 +926,7 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.Rendering.HighDefinition.ShaderGraph.HDUnlitData",
-    "m_ObjectId": "ad0a01b06c0743a88c81ad528bd24b1e",
+    "m_ObjectId": "d36131c60347410491600fd5f7ef6695",
     "m_EnableShadowMatte": false,
     "m_DistortionOnly": false
 }
