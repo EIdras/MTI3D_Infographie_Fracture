@@ -9,4 +9,7 @@ Assets/OutdoorsScene/OcclusionCullingData.asset filter=lfs diff=lfs merge=lfs -t
 "Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set-Default.CellData.bytes" filter=lfs diff=lfs merge=lfs -text
 "Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set-Default.CellOptionalData.bytes" filter=lfs diff=lfs merge=lfs -text
 "Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set.CellSupportData.bytes" filter=lfs diff=lfs merge=lfs -text
+"Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set.CellBricksData.bytes" filter=lfs diff=lfs merge=lfs -text
+"Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set.CellSharedData.bytes" filter=lfs diff=lfs merge=lfs -text
+"Assets/OutdoorsScene/OutdoorsScene[[:space:]]Baking[[:space:]]Set-Default.CellProbeOcclusionData.bytes" filter=lfs diff=lfs merge=lfs -text
 *.exr filter=lfs diff=lfs merge=lfs -text
