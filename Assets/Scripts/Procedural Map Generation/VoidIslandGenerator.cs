@@ -36,7 +36,7 @@ public class VoidIslandGenerator : MonoBehaviour
     {
         if (mainGenerator == null) {
             mainGenerator = GetComponent<EscherVoidGenerator>();
-            if(mainGenerator == null) mainGenerator = FindObjectOfType<EscherVoidGenerator>();
+            if(mainGenerator == null) mainGenerator = FindFirstObjectByType<EscherVoidGenerator>();
         }
         if(mainGenerator == null) { Debug.LogError("Pas de EscherVoidGenerator trouvé !"); return; }
 
@@ -158,7 +158,14 @@ public class VoidIslandGenerator : MonoBehaviour
                     Vector3 worldBlockCenter = new Vector3(blockPos.x * gridSize, blockPos.y * gridSize, blockPos.z * gridSize);
                     Vector3 spawnPos = worldBlockCenter + (new Vector3(dir.x, dir.y, dir.z) * (gridSize * 0.5f + crystalOffset));
 
-                    GameObject crystal = (GameObject)PrefabUtility.InstantiatePrefab(crystalPrefab, islandContainer);
+                    GameObject crystal = null;
+
+#if UNITY_EDITOR
+                    crystal = (GameObject)PrefabUtility.InstantiatePrefab(crystalPrefab, islandContainer);
+#else
+                        crystal = Instantiate(crystalPrefab, islandContainer);
+#endif
+
                     crystal.transform.localPosition = spawnPos;
                     
                     Quaternion lookRot = Quaternion.LookRotation(new Vector3(dir.x, dir.y, dir.z));
@@ -223,7 +230,15 @@ public class VoidIslandGenerator : MonoBehaviour
     void SpawnBlockInContainer(Vector3 localPos, Quaternion rot, Module prefab, string name)
     {
         if(prefab == null || islandContainer == null) return;
-        Module instance = (Module)PrefabUtility.InstantiatePrefab(prefab, islandContainer); 
+        
+        Module instance = null;
+
+#if UNITY_EDITOR
+        instance = (Module)PrefabUtility.InstantiatePrefab(prefab, islandContainer);
+#else
+            instance = Instantiate(prefab, islandContainer);
+#endif
+
         instance.transform.localPosition = localPos;
         instance.transform.localRotation = rot;
         instance.name = name;

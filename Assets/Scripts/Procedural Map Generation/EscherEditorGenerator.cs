@@ -87,10 +87,10 @@ public class EscherVoidGenerator : MonoBehaviour
 
     public void StopGeneration()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         EditorApplication.update -= EditorUpdateLoop;
-        #endif
         EditorUtility.ClearProgressBar();
+#endif
         Debug.Log($"Génération terminée. {currentBlockCount} blocs.");
     }
 
@@ -113,9 +113,10 @@ public class EscherVoidGenerator : MonoBehaviour
                 ops++;
             }
         }
-        
+#if UNITY_EDITOR
         if (currentBlockCount % 200 == 0)
             EditorUtility.DisplayProgressBar("Génération...", $"{currentBlockCount} / {totalBlocksLimit} blocs", (float)currentBlockCount / totalBlocksLimit);
+#endif
     }
 
     // --- LOGIQUE CORE ---
@@ -188,7 +189,7 @@ public class EscherVoidGenerator : MonoBehaviour
                 }
                 
                 // TENTATIVE 2 : Sauvetage (Si pas de socket vertical, on pose une plateforme)
-                // On ne le fait que si on n'a pas déjà abusé (chainLength sert de marqueur ici)
+                // On ne le fait que si on n'a pas déjà abusé
                 if (crawler.chainLength < 1000) 
                 {
                     crawler.chainLength = 1000; // Marque "Sauvetage en cours"
@@ -206,7 +207,7 @@ public class EscherVoidGenerator : MonoBehaviour
                     }
                 }
             }
-            return false; // Si tout échoue, on meurt
+            return false;
         }
 
         // --- 2. COMPORTEMENT STANDARD ---
@@ -217,7 +218,7 @@ public class EscherVoidGenerator : MonoBehaviour
         
         if (nextPrefab == null) { 
             crawler.stepsTaken++; 
-            return true; // On réessaiera au prochain tour
+            return true;
         } 
 
         // Si on tombe sur une obélisque par hasard, on déclenche la fin
@@ -254,7 +255,6 @@ public class EscherVoidGenerator : MonoBehaviour
         // --- SPAWN ET SECURITE NULL ---
         Module newInstance = SpawnEditorBlock(targetGridPos, targetRot, nextPrefab, $"{crawler.name}{suffix}");
         
-        // CORRECTION IMPORTANTE : Si la limite est atteinte, newInstance est null. On arrête.
         if (newInstance == null) return false;
 
         // Branching (Sauf si c'est une fin type Obélisque)
@@ -269,31 +269,38 @@ public class EscherVoidGenerator : MonoBehaviour
 
     Module SpawnEditorBlock(Vector3Int gridPos, Quaternion rotation, Module prefab, string name)
     {
-        // --- LOGIQUE DE LIMITE SOUPLE ---
-        
-        // 1. Limite Absolue (Hard Limit) : Sécurité anti-crash
+        // --- LOGIQUE DE LIMITE ---
         int hardLimit = totalBlocksLimit + 200; 
         if (currentBlockCount >= hardLimit) return null;
 
-        // 2. Limite Structurelle (Soft Limit) : On arrête les structures, mais on autorise les Obélisques
         if (currentBlockCount >= totalBlocksLimit)
         {
             if (prefab.type != ModuleType.Obelisk) return null;
         }
-        // --------------------------------
+        
+        // --- CORRECTION DU BUILD ICI ---
+        Module instance = null;
 
-        Module instance = (Module)PrefabUtility.InstantiatePrefab(prefab, transform);
+#if UNITY_EDITOR
+        // DANS L'EDITEUR : On garde le lien Prefab (texte bleu)
+        instance = (Module)PrefabUtility.InstantiatePrefab(prefab, transform);
+#else
+            // DANS LE JEU (BUILD) : On instancie une copie simple
+            instance = Instantiate(prefab, transform);
+#endif
+        // -------------------------------
+
         instance.transform.position = GridToWorld(gridPos);
         instance.transform.rotation = rotation;
         instance.name = name;
-        instance.gameObject.isStatic = true;
+        
+        // Assure-toi que c'est statique pour le batching, mais attention en runtime
+        instance.gameObject.isStatic = true; 
         instance.gameObject.SetActive(true);
 
-        // Init sockets si nécessaire
         if (instance.allSockets == null || instance.allSockets.Count == 0)
             instance.allSockets = instance.GetComponentsInChildren<SocketTag>(true).ToList();
 
-        // Occupation grille
         foreach(var offset in instance.occupiedOffsets)
         {
             Vector3 rotatedOffsetFloat = rotation * (Vector3)offset;

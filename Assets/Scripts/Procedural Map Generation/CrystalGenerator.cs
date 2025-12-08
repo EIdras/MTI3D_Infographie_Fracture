@@ -35,7 +35,11 @@ namespace Procedural_Map_Generation
                 {
                     if (Random.value < density)
                     {
+#if UNITY_EDITOR
                         GameObject crystal = (GameObject)PrefabUtility.InstantiatePrefab(crystalPrefab, generator.transform);
+#else
+                        GameObject crystal = Instantiate(crystalPrefab, generator.transform);
+#endif
                         
                         crystal.transform.position = new Vector3(pos.x * generator.gridSize, pos.y * generator.gridSize, pos.z * generator.gridSize);
                         crystal.transform.rotation = Random.rotation;

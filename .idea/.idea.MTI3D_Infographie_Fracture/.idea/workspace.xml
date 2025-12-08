@@ -6,44 +6,37 @@
   <component name="ChangeListManager">
     <list default="true" id="1db66dbf-4b19-4237-a450-86f6781755a7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MTI3D_Infographie_Fracture/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MTI3D_Infographie_Fracture/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Lighting.lighting" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Lighting.lighting" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Bottom.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Bottom.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cannelure.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Cannelure.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Crystal.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Crystal.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Crystal2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Crystal2.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Top.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Top.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/pillar_low.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/pillar_low.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Prefabs/crystal1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Prefabs/crystal1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Prefabs/crystal2.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Prefabs/crystal2.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/FogVolume.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/FogVolume.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OcclusionCullingData.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/LightingData-0.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/LightingData-0.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellData.bytes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellData.bytes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellOptionalData.bytes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellOptionalData.bytes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellProbeOcclusionData.bytes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set-Default.CellProbeOcclusionData.bytes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.CellBricksData.bytes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.CellBricksData.bytes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.CellSharedData.bytes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.CellSharedData.bytes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.CellSupportData.bytes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.CellSupportData.bytes.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/OutdoorsScene Baking Set.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/Post Process Volume Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/Post Process Volume Profile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/BlackHole.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/BlackHole.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Pillar_Black_Hole.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Pillar_Black_Hole.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Structure.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/crystal1_low.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/crystal1_low.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/crystal2.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/crystal2.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/OutdoorsScene/ReflectionProbe-0.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/OutdoorsScene/ReflectionProbe-0.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/CrystalGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/EscherEditorGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/MeshCombiner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/MeshCombiner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/Module.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/Module.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/VoidIslandGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Procedural Map Generation/VoidIslandGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/HDRP Balanced.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/HDRP Balanced.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Settings/HDRP High Fidelity.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/HDRP High Fidelity.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/HDRP Performant.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/HDRP Performant.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/HDRPDefaultResources/DefaultSettingsVolumeProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/HDRPDefaultResources/DefaultSettingsVolumeProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/HDRPDefaultResources/HDRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/HDRPDefaultResources/HDRenderPipelineGlobalSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/SkyandFogSettingsProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/SkyandFogSettingsProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/BlackHoleCore.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/BlackHoleCore.shadergraph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Swirl.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Swirl.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/SwirlDistortion.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/SwirlDistortion.shadergraph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/TrouNoir2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/TrouNoir2.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Timeline/DirectorTimeline.playable" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Timeline/DirectorTimeline.playable" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +75,14 @@
   }
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Build\Fracture.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Simon\MTI3D_Infographie_Fracture\Build" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.52f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\Simon\MTI3D_Infographie_Fracture -debugCodeOptimization" />
@@ -133,6 +134,8 @@
       <workItem from="1764545534589" duration="963000" />
       <workItem from="1765025334874" duration="7063000" />
       <workItem from="1765126786332" duration="20000" />
+      <workItem from="1765154783508" duration="2881000" />
+      <workItem from="1765165306968" duration="8000" />
     </task>
     <servers />
   </component>
